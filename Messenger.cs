@@ -3,7 +3,8 @@ using System.Diagnostics;
 
 namespace NissenCode
 {
-    public enum Level {
+    public enum Level
+    {
         Info = 0,
         Error = 1,
         Warning = 2
@@ -14,12 +15,6 @@ namespace NissenCode
         public Level level { get; }
         public DateTime time { get; }
         public string caller { get; internal set; }
-
-        private ConsoleColor[] colors = new ConsoleColor[] {
-            Console.ForegroundColor,
-            ConsoleColor.Red,
-            ConsoleColor.Yellow
-        };
 
 
         public Messenger(string message, Level level = Level.Info)
@@ -36,25 +31,24 @@ namespace NissenCode
         {
             log(ToString());
         }
-        internal void log(string msg) {
-            Console.ForegroundColor = colors[(int)level];
+        internal void log(string msg)
+        {
             switch (level)
             {
                 case Level.Info:
-                    Console.WriteLine(msg);
+                    UnityEngine.Debug.Log(msg);
                     break;
                 case Level.Error:
-                    Console.Error.WriteLine(msg);
+                    UnityEngine.Debug.LogError(msg);
                     break;
                 case Level.Warning:
-                    Console.WriteLine(msg);
+                    UnityEngine.Debug.LogWarning(msg);
                     break;
             }
-            Console.ForegroundColor = colors[(int) Level.Info];
         }
         public override string ToString()
         {
-            return time.ToString("[ yyyy-MM-dd HH:mm:ss ]") + "[ " + level.ToString() + " ][ "+ caller + " ] " + message;
+            return time.ToString("[ yyyy-MM-dd HH:mm:ss ]") + "[ " + level.ToString() + " ][ " + caller + " ] " + message;
         }
     }
 
@@ -63,7 +57,7 @@ namespace NissenCode
         public T value { get; }
         public void log(bool withValue = false)
         {
-            log(ToString()+(withValue? "( " + value + " )" : ""));
+            log(ToString() + (withValue ? "( " + value + " )" : ""));
         }
         public Messenger(T value, string message, Level level = Level.Info) : base(message, level)
         {
